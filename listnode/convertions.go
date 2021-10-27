@@ -1,9 +1,4 @@
-package lcutils
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
+package listnode
 
 func ConvertListNodeToArray(head *ListNode) []int {
 	current := head
