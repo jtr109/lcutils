@@ -5,12 +5,9 @@
 // ```go
 // package example
 //
-// import (
-// 	"testing"
+// import "github.com/jtr109/lcutils/listnode"
 //
-// 	"github.com/jtr109/lcutils/listnode"
-// 	"github.com/stretchr/testify/assert"
-// )
+// type ListNode = listnode.ListNode // type alias
 //
 // func main() {
 //   head := []int{1, 2, 3, 4}
