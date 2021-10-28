@@ -12,7 +12,7 @@ type MockedStdin struct {
 	oldStdin   *os.File
 }
 
-func MockStdin1() (*MockedStdin, error) {
+func MockStdin() (*MockedStdin, error) {
 	r, w, err := os.Pipe()
 	if err != nil {
 		return nil, err
@@ -41,25 +41,4 @@ func (ms *MockedStdin) Close() (err error) {
 		return
 	}
 	return
-}
-
-func MockStdin(input string) (oldStdin *os.File, err error) {
-	content := []byte(input)
-	r, w, err := os.Pipe()
-	if err != nil {
-		return nil, err
-	}
-
-	if _, err = w.Write(content); err != nil {
-		return nil, err
-	}
-	w.Close()
-
-	oldStdin = os.Stdin
-	os.Stdin = r
-	return
-}
-
-func RestoreStdin(oldStdin *os.File) {
-	os.Stdin = oldStdin // restore operate system standard input
 }

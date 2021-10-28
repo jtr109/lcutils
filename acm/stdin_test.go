@@ -9,7 +9,7 @@ import (
 
 func TestUserInput(t *testing.T) {
 	input := "-10\n20\n5\n10\n3\n"
-	mockedStdin, _ := MockStdin1()
+	mockedStdin, _ := MockStdin()
 	defer mockedStdin.Close()
 	mockedStdin.Write(input)
 
