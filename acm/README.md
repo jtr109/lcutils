@@ -7,7 +7,7 @@
 ```go
 package example
 
-import "github.com/jtr109/lcutils/listnode/acm"
+import "github.com/jtr109/lcutils/acm"
 
 func main() {
 	input := "-10\n20\n5\n10\n3\n"
@@ -22,7 +22,7 @@ func main() {
 ### Mock Stdout
 
 ```go
-import "github.com/jtr109/lcutils/listnode/acm"
+import "github.com/jtr109/lcutils/acm"
 
 func main() {
 	mockedStdout, _ := acm.MockStdout()
