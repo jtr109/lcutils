@@ -2,7 +2,6 @@ package acm
 
 import (
 	"fmt"
-	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,11 +9,9 @@ import (
 
 func TestUserInput(t *testing.T) {
 	input := "-10\n20\n5\n10\n3\n"
-	oldStdin, err := MockStdin(input)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer RestoreStdin(oldStdin)
+	mockedStdin, _ := MockStdin1()
+	defer mockedStdin.Close()
+	mockedStdin.Write(input)
 
 	assert.Equal(t, []int{-10, 20, 5, 10, 3}, readStdin())
 }
