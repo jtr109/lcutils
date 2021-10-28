@@ -10,11 +10,11 @@ import (
 
 func TestUserInput(t *testing.T) {
 	input := "-10\n20\n5\n10\n3\n"
-	mockStdin, oldStdin, err := MockStdin(input)
+	oldStdin, err := MockStdin(input)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer RestoreStdin(mockStdin, oldStdin)
+	defer RestoreStdin(oldStdin)
 
 	assert.Equal(t, []int{-10, 20, 5, 10, 3}, readStdin())
 }

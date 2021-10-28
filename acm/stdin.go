@@ -1,31 +1,26 @@
 package acm
 
 import (
-	"io/ioutil"
 	"os"
 )
 
-func MockStdin(input string) (mockStdin, oldStdin *os.File, err error) {
+func MockStdin(input string) (oldStdin *os.File, err error) {
 	content := []byte(input)
-	mockStdin, err = ioutil.TempFile("", "example")
+	r, w, err := os.Pipe()
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	if _, err := mockStdin.Write(content); err != nil {
-		return mockStdin, nil, err
+	if _, err = w.Write(content); err != nil {
+		return nil, err
 	}
-
-	if _, err := mockStdin.Seek(0, 0); err != nil {
-		return mockStdin, nil, err
-	}
+	w.Close()
 
 	oldStdin = os.Stdin
-	os.Stdin = mockStdin
+	os.Stdin = r
 	return
 }
 
-func RestoreStdin(mockStdin, oldStdin *os.File) {
-	os.Remove(mockStdin.Name()) // clean up tempfile
-	os.Stdin = oldStdin         // restore system standard input
+func RestoreStdin(oldStdin *os.File) {
+	os.Stdin = oldStdin // restore operate system standard input
 }
