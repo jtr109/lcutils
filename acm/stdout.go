@@ -1,3 +1,5 @@
+// Mocking stdout is inspired from https://stackoverflow.com/a/29339052/6522746
+
 package acm
 
 import (

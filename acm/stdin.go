@@ -1,4 +1,4 @@
-// inspire from https://stackoverflow.com/a/64518829/6522746
+// Mocking stdin is inspired from https://stackoverflow.com/a/64518829/6522746
 
 package acm
 
