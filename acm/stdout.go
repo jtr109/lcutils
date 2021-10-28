@@ -5,19 +5,34 @@ import (
 	"os"
 )
 
-func MockStdout() (pipeReader, pipeWriter, oldStdout *os.File, err error) {
-	oldStdout = os.Stdout
-	pipeReader, pipeWriter, err = os.Pipe()
-	if err != nil {
-		return nil, nil, nil, err
-	}
-	os.Stdout = pipeWriter
-	return
+type MockedStdout struct {
+	pipeReader *os.File
+	pipeWriter *os.File
+	oldStdout  *os.File
 }
 
-func CaptureStdout(pipeReader, pipeWriter, oldStdout *os.File) (string, error) {
-	defer func() { os.Stdout = oldStdout }() // restore original Stdout
-	pipeWriter.Close()
-	out, _ := ioutil.ReadAll(pipeReader)
+func MockStdout() (*MockedStdout, error) {
+	r, w, err := os.Pipe()
+	if err != nil {
+		return nil, err
+	}
+	mockedStdout := &MockedStdout{
+		pipeReader: r,
+		pipeWriter: w,
+		oldStdout:  os.Stdout,
+	}
+	os.Stdout = mockedStdout.pipeWriter
+	return mockedStdout, nil
+}
+
+func (ms *MockedStdout) Read() (string, error) {
+	ms.pipeWriter.Close()
+	out, _ := ioutil.ReadAll(ms.pipeReader)
 	return string(out), nil
+}
+
+func (ms *MockedStdout) Close() (err error) {
+	os.Stdout = ms.oldStdout // restore original Stdout
+	err = ms.pipeReader.Close()
+	return
 }
