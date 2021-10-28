@@ -28,8 +28,13 @@ func MockStdout() (*MockedStdout, error) {
 }
 
 func (ms *MockedStdout) Read() (string, error) {
-	ms.pipeWriter.Close()
-	out, _ := ioutil.ReadAll(ms.pipeReader)
+	if err := ms.pipeWriter.Close(); err != nil {
+		return "", err
+	}
+	out, err := ioutil.ReadAll(ms.pipeReader)
+	if err != nil {
+		return "", err
+	}
 	return string(out), nil
 }
 
