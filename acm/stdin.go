@@ -17,12 +17,13 @@ func MockStdin() (*MockedStdin, error) {
 	if err != nil {
 		return nil, err
 	}
-	mockedStdin := &MockedStdin{
+	ms := &MockedStdin{
 		pipeReader: r,
 		pipeWriter: w,
 		oldStdin:   os.Stdin,
 	}
-	return mockedStdin, nil
+	os.Stdin = ms.pipeReader
+	return ms, nil
 }
 
 func (ms *MockedStdin) Write(input string) error {
@@ -30,8 +31,9 @@ func (ms *MockedStdin) Write(input string) error {
 	if _, err := ms.pipeWriter.Write(content); err != nil {
 		return err
 	}
-	ms.pipeWriter.Close()
-	os.Stdin = ms.pipeReader
+	if err := ms.pipeWriter.Close(); err != nil {
+		return err
+	}
 	return nil
 }
 

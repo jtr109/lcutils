@@ -16,13 +16,13 @@ func MockStdout() (*MockedStdout, error) {
 	if err != nil {
 		return nil, err
 	}
-	mockedStdout := &MockedStdout{
+	ms := &MockedStdout{
 		pipeReader: r,
 		pipeWriter: w,
 		oldStdout:  os.Stdout,
 	}
-	os.Stdout = mockedStdout.pipeWriter
-	return mockedStdout, nil
+	os.Stdout = ms.pipeWriter
+	return ms, nil
 }
 
 func (ms *MockedStdout) Read() (string, error) {
