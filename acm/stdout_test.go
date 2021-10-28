@@ -2,24 +2,18 @@ package acm
 
 import (
 	"fmt"
-	"io/ioutil"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCaptureStdout(t *testing.T) {
-	rescueStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
+	pipeReader, pipeWriter, oldStdout, _ := MockStdout()
 
 	content := "Hello, playground"
 	fmt.Print(content) // this gets captured
 
-	w.Close()
-	out, _ := ioutil.ReadAll(r)
-	os.Stdout = rescueStdout
+	out, _ := CaptureStdout(pipeReader, pipeWriter, oldStdout)
 
-	assert.Equal(t, content, string(out))
+	assert.Equal(t, content, out)
 }
