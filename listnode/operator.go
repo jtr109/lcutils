@@ -36,10 +36,9 @@ func (op *Operator) CycleBegin() *ListNode {
 	return nil
 }
 
-func (op *Operator) Append(node *ListNode) (ok bool) {
+func (op *Operator) Append(node *ListNode) error {
 	if op.CycleBegin() != nil {
-		// New node cannot be appended because the node list has a cycle.
-		return false
+		return fmt.Errorf("appending failed when the node list has a cycle")
 	}
 
 	tail := op.virtualHead
@@ -47,7 +46,7 @@ func (op *Operator) Append(node *ListNode) (ok bool) {
 		tail = tail.Next
 	}
 	tail.Next = node
-	return true
+	return nil
 }
 
 func (op *Operator) Get(index int) (*ListNode, error) {

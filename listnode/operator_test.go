@@ -31,8 +31,8 @@ func TestOperatorCycleBegin(t *testing.T) {
 	node1 := NewListNode(2)
 	node2 := NewListNode(0)
 	node3 := NewListNode(-4)
-	ok := op.Append(head)
-	assert.True(t, ok)
+	err := op.Append(head)
+	assert.Nil(t, err)
 	head.Next = node1
 	node1.Next = node2
 	node2.Next = node3
@@ -40,7 +40,7 @@ func TestOperatorCycleBegin(t *testing.T) {
 	assert.Equal(t, node1, op.CycleBegin())
 	// Appending failed when the node list has a cycle
 	node4 := NewListNode(newRand().Int())
-	assert.False(t, op.Append(node4))
+	assert.Errorf(t, op.Append(node4), "appending failed when the node list has a cycle")
 }
 
 func TestOperatorAppend(t *testing.T) {
