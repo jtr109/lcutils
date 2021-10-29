@@ -74,10 +74,14 @@ func (op *Operator) Insert(index int, node *ListNode) error {
 	return nil
 }
 
-// func (op *Operator) Delete(index int) {
-// 	prev := op.getPrevious(index)
-// 	prev.Next = prev.Next.Next
-// }
+func (op *Operator) Delete(index int) error {
+	prev, err := op.getPrevious(index)
+	if err != nil {
+		return err
+	}
+	prev.Next = prev.Next.Next
+	return nil
+}
 
 // func (op *Operator) Get(index int) *ListNode {
 // 	prev := op.getPrevious(index)
