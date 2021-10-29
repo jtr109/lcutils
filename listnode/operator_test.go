@@ -26,16 +26,11 @@ func TestOperatorCycleBegin(t *testing.T) {
 	//       ^        /
 	//        \      /
 	//         '----'
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
-	node2 := NewListNode(0)
-	node3 := NewListNode(-4)
-	err := op.Append(head)
+	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	node1, err := op.Get(1)
 	assert.Nil(t, err)
-	head.Next = node1
-	node1.Next = node2
-	node2.Next = node3
+	node3, err := op.Get(3)
+	assert.Nil(t, err)
 	node3.Next = node1
 	assert.Equal(t, node1, op.CycleBegin())
 	// Appending failed when the node list has a cycle
@@ -110,15 +105,9 @@ func TestOperatorInsert(t *testing.T) {
 	//       \          ^
 	//        \        /
 	//         '-> 1 -'
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
-	node2 := NewListNode(0)
-	node3 := NewListNode(-4)
-	op.Append(head)
-	op.Append(node1)
-	op.Append(node2)
-	op.Append(node3)
+	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	node1, _ := op.Get(1)
+	node2, _ := op.Get(2)
 	node4 := NewListNode(1)
 	op.Insert(2, node4)
 	assert.Equal(t, node4, node1.Next)
@@ -130,38 +119,29 @@ func TestOperatorInsertAtHead(t *testing.T) {
 	//       ^
 	//      /
 	// 1 --'
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
-	op.Append(head)
-	op.Append(node1)
+	op := NewOperatorFromSlice([]int{3, 2})
+	node0, _ := op.Get(0)
 	node2 := NewListNode(1)
 	op.Insert(0, node2)
 	assert.Equal(t, node2, op.Head())
+	assert.Equal(t, node0, node2.Next)
 }
 
 func TestOperatorInsertAtTail(t *testing.T) {
 	// 3 --> 2
 	//        \
 	//         '--> 1
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
+	op := NewOperatorFromSlice([]int{3, 2})
+	node1, _ := op.Get(1)
 	node2 := NewListNode(1)
-	op.Append(head)
-	op.Append(node1)
 	op.Insert(2, node2)
 	assert.Equal(t, node2, node1.Next)
 	assert.Nil(t, node2.Next)
 }
 
 func TestOperatorInsertWithInvalidIndex(t *testing.T) {
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
 	node2 := NewListNode(1)
-	op.Append(head)
-	op.Append(node1)
+	op := NewOperatorFromSlice([]int{3, 2})
 	for i := -1; i > -3; i-- {
 		err := op.Insert(i, node2)
 		assert.Errorf(t, err, fmt.Sprintf("invalid index %d (index must be non-negative", i))
@@ -178,15 +158,10 @@ func TestOperatorDelete(t *testing.T) {
 	//          \                        ^
 	//           \                      /
 	//            '--------------------'
-	op := NewOperator()
-	head := NewListNode(3)
-	node1 := NewListNode(2)
-	node2 := NewListNode(0)
-	node3 := NewListNode(-4)
-	op.Append(head)
-	op.Append(node1)
-	op.Append(node2)
-	op.Append(node3)
+	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	node1, _ := op.Get(1)
+	node2, _ := op.Get(2)
+	node3, _ := op.Get(3)
 	err := op.Delete(2)
 	assert.Nil(t, err)
 	assert.Equal(t, node3, node1.Next)
@@ -232,4 +207,27 @@ func TestOperatorDeleteWithInvalidIndex(t *testing.T) {
 		err := op.Delete(i)
 		assert.Errorf(t, err, fmt.Sprintf("index %d out of range", i))
 	}
+}
+
+func TestOperatorToSlice(t *testing.T) {
+	s := []int{3, 2, 0, -4}
+	op := NewOperatorFromSlice(s)
+	newS, err := op.ToSlice()
+	assert.Nil(t, err)
+	assert.Equal(t, s, newS)
+}
+
+func TestOperatorToSliceWithCycle(t *testing.T) {
+	// 3 -> 2 -> 0 -> -4
+	//       ^        /
+	//        \      /
+	//         '----'
+	s := []int{3, 2, 0, -4}
+	op := NewOperatorFromSlice(s)
+	node1, _ := op.Get(1)
+	node3, _ := op.Get(3)
+	node3.Next = node1
+	newS, err := op.ToSlice()
+	assert.Errorf(t, err, "failed because the node list has a cycle")
+	assert.Nil(t, newS)
 }
