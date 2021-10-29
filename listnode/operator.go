@@ -50,6 +50,20 @@ func (op *Operator) Append(node *ListNode) (ok bool) {
 	return true
 }
 
+func (op *Operator) Get(index int) (*ListNode, error) {
+	if index < 0 {
+		return nil, fmt.Errorf("invalid index %d (index must be non-negative", index)
+	}
+	current := op.virtualHead
+	for i := 0; i <= index; i++ {
+		current = current.Next
+		if current == nil {
+			return nil, fmt.Errorf("index %d out of range", index)
+		}
+	}
+	return current, nil
+}
+
 func (op *Operator) getPrevious(index int) (*ListNode, error) {
 	if index < 0 {
 		return nil, fmt.Errorf("invalid index %d (index must be non-negative", index)
@@ -79,11 +93,11 @@ func (op *Operator) Delete(index int) error {
 	if err != nil {
 		return err
 	}
+	if prev.Next == nil {
+		return fmt.Errorf("index %d out of range", index)
+	}
+	target := prev.Next
 	prev.Next = prev.Next.Next
+	target.Next = nil
 	return nil
 }
-
-// func (op *Operator) Get(index int) *ListNode {
-// 	prev := op.getPrevious(index)
-// 	return prev.Next
-// }

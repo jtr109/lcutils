@@ -56,14 +56,34 @@ func TestOperatorAppend(t *testing.T) {
 	assert.Equal(t, node2, head.Next.Next)
 }
 
+func TestOperatorGet(t *testing.T) {
+	op := NewOperator()
+	head := NewListNode(3)
+	node1 := NewListNode(2)
+	op.Append(head)
+	op.Append(node1)
+	node, err := op.Get(0)
+	assert.Equal(t, head, node)
+	assert.Nil(t, err)
+	node, err = op.Get(1)
+	assert.Equal(t, node1, node)
+	assert.Nil(t, err)
+	for i := -1; i > -3; i-- {
+		_, err := op.Get(i)
+		assert.Errorf(t, err, fmt.Sprintf("invalid index %d (index must be non-negative", i))
+	}
+	for i := 2; i < 10; i++ {
+		_, err := op.Get(i)
+		assert.Errorf(t, err, fmt.Sprintf("index %d out of range", i))
+	}
+}
+
 func TestOperatorGetPrevious(t *testing.T) {
 	op := NewOperator()
 	head := NewListNode(newRand().Int())
 	node1 := NewListNode(newRand().Int())
-	node2 := NewListNode(newRand().Int())
 	op.Append(head)
 	op.Append(node1)
-	op.Append(node2)
 	prev, err := op.getPrevious(0)
 	assert.Equal(t, op.virtualHead, prev)
 	assert.Nil(t, err)
@@ -73,15 +93,12 @@ func TestOperatorGetPrevious(t *testing.T) {
 	prev, err = op.getPrevious(2)
 	assert.Equal(t, node1, prev)
 	assert.Nil(t, err)
-	prev, err = op.getPrevious(3)
-	assert.Equal(t, node2, prev)
-	assert.Nil(t, err)
 	for i := -1; i > -3; i-- {
 		prev, err = op.getPrevious(i)
 		assert.Nil(t, prev)
 		assert.Errorf(t, err, fmt.Sprintf("invalid index %d (index must be non-negative", i))
 	}
-	for i := 4; i < 10; i++ {
+	for i := 3; i < 10; i++ {
 		prev, err = op.getPrevious(i)
 		assert.Nil(t, prev)
 		assert.Errorf(t, err, fmt.Sprintf("index %d out of range", i))
@@ -154,4 +171,65 @@ func TestOperatorInsertWithInvalidIndex(t *testing.T) {
 		assert.Errorf(t, err, fmt.Sprintf("index %d out of range", i))
 	}
 
+}
+
+func TestOperatorDelete(t *testing.T) {
+	// 3 ----> 2 - - x - -> 0 - - x - -> -4
+	//          \                        ^
+	//           \                      /
+	//            '--------------------'
+	op := NewOperator()
+	head := NewListNode(3)
+	node1 := NewListNode(2)
+	node2 := NewListNode(0)
+	node3 := NewListNode(-4)
+	op.Append(head)
+	op.Append(node1)
+	op.Append(node2)
+	op.Append(node3)
+	err := op.Delete(2)
+	assert.Nil(t, err)
+	assert.Equal(t, node3, node1.Next)
+	assert.Nil(t, node2.Next)
+}
+
+func TestOperatorDeleteHead(t *testing.T) {
+	op := NewOperator()
+	head := NewListNode(3)
+	node1 := NewListNode(2)
+	op.Append(head)
+	op.Append(node1)
+	assert.Equal(t, head, op.Head())
+	err := op.Delete(0)
+	assert.Nil(t, err)
+	assert.Equal(t, node1, op.Head())
+}
+
+func TestOperatorDeleteTail(t *testing.T) {
+	op := NewOperator()
+	head := NewListNode(3)
+	node1 := NewListNode(2)
+	op.Append(head)
+	op.Append(node1)
+	assert.Equal(t, head, op.Head())
+	err := op.Delete(1)
+	assert.Nil(t, err)
+	assert.Nil(t, head.Next)
+	assert.Nil(t, node1.Next)
+}
+
+func TestOperatorDeleteWithInvalidIndex(t *testing.T) {
+	op := NewOperator()
+	head := NewListNode(3)
+	node1 := NewListNode(2)
+	op.Append(head)
+	op.Append(node1)
+	for i := -1; i > -3; i-- {
+		err := op.Delete(i)
+		assert.Errorf(t, err, fmt.Sprintf("invalid index %d (index must be non-negative", i))
+	}
+	for i := 2; i < 10; i++ {
+		err := op.Delete(i)
+		assert.Errorf(t, err, fmt.Sprintf("index %d out of range", i))
+	}
 }
