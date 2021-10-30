@@ -34,21 +34,31 @@ func (op *Operator) Head() *ListNode {
 }
 
 func (op *Operator) CycleBegin() *ListNode {
+	sign := op.cycleFlagNode()
+	if sign == nil {
+		// no cycle in the node list
+		return nil
+	}
+	index1 := op.virtualHead
+	index2 := sign
+	for index1 != index2 {
+		index1 = index1.Next
+		index2 = index2.Next
+	}
+	return index1
+}
+
+func (op *Operator) cycleFlagNode() *ListNode {
 	fast, slow := op.virtualHead, op.virtualHead
 	for fast != nil && fast.Next != nil {
 		fast = fast.Next.Next
 		slow = slow.Next
 		if fast == slow {
-			index1 := slow
-			index2 := op.virtualHead
-			for index1 != index2 {
-				index1 = index1.Next
-				index2 = index2.Next
-			}
-			return index1
+			return fast
 		}
 	}
 	return nil
+
 }
 
 func (op *Operator) Append(node *ListNode) error {
