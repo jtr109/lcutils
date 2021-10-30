@@ -22,7 +22,7 @@ func NewOperatorFromSlice(s []int) *Operator {
 
 func (op *Operator) ToSlice() ([]int, error) {
 	// failed if the node list has a cycle
-	if op.CycleBegin() != nil {
+	if op.cycleFlagNode() != nil {
 		return nil, fmt.Errorf("failed because the node list has a cycle")
 	}
 	// TODO: move convertion function here
@@ -62,7 +62,7 @@ func (op *Operator) cycleFlagNode() *ListNode {
 }
 
 func (op *Operator) Append(node *ListNode) error {
-	if op.CycleBegin() != nil {
+	if op.cycleFlagNode() != nil {
 		return fmt.Errorf("appending failed when the node list has a cycle")
 	}
 

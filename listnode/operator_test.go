@@ -31,6 +31,7 @@ func TestOperatorCycleBegin(t *testing.T) {
 	assert.Nil(t, err)
 	node3, err := op.Get(3)
 	assert.Nil(t, err)
+	assert.Nil(t, op.CycleBegin()) // return nil if the list node doesn't have cycle
 	node3.Next = node1
 	assert.Equal(t, node1, op.CycleBegin())
 	// Appending failed when the node list has a cycle
