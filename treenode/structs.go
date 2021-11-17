@@ -6,8 +6,11 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func NewTreeNode(val int) *TreeNode {
+func NewTreeNode(val *NilInt) *TreeNode {
+	if val.isNil {
+		return nil
+	}
 	return &TreeNode{
-		Val: val,
+		Val: val.Val(),
 	}
 }
