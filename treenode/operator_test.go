@@ -40,6 +40,15 @@ func TestFromPartialSlice(t *testing.T) {
 }
 
 func TestFromOnlyLeftSlice(t *testing.T) {
+	//         1
+	//        /
+	//       2
+	//      /
+	//     3
+	//    /
+	//   4
+	//  /
+	// 5
 	slice := []NilInt{
 		NewInt(1),
 		NewInt(2),
@@ -57,7 +66,9 @@ func TestFromOnlyLeftSlice(t *testing.T) {
 	assert.Nil(t, op.Root().Right)
 	assert.Equal(t, 3, op.Root().Left.Left.Val)
 	assert.Nil(t, op.Root().Left.Right)
-	assert.Equal(t, 4, op.Root().Left.Left.Val)
+	assert.Equal(t, 4, op.Root().Left.Left.Left.Val)
 	assert.Nil(t, op.Root().Left.Left.Right)
-	assert.Equal(t, 5, op.Root().Left.Left.Left.Val)
+	assert.Equal(t, 5, op.Root().Left.Left.Left.Left.Val)
+	assert.Nil(t, op.Root().Left.Left.Left.Left.Left)
+	assert.Nil(t, op.Root().Left.Left.Left.Left.Right)
 }
