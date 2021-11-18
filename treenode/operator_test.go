@@ -38,3 +38,26 @@ func TestFromPartialSlice(t *testing.T) {
 	assert.Equal(t, 2, op.Root().Left.Val)
 	assert.Nil(t, op.Root().Right)
 }
+
+func TestFromOnlyLeftSlice(t *testing.T) {
+	slice := []NilInt{
+		NewInt(1),
+		NewInt(2),
+		NewNil(),
+		NewInt(3),
+		NewNil(),
+		NewInt(4),
+		NewNil(),
+		NewInt(5),
+	}
+	op := NewOperator()
+	op.FromSlice(slice)
+	assert.Equal(t, 1, op.Root().Val)
+	assert.Equal(t, 2, op.Root().Left.Val)
+	assert.Nil(t, op.Root().Right)
+	assert.Equal(t, 3, op.Root().Left.Left.Val)
+	assert.Nil(t, op.Root().Left.Right)
+	assert.Equal(t, 4, op.Root().Left.Left.Val)
+	assert.Nil(t, op.Root().Left.Left.Right)
+	assert.Equal(t, 5, op.Root().Left.Left.Left.Val)
+}
