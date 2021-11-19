@@ -12,7 +12,7 @@ func (op *Operator) Root() *TreeNode {
 	return op.root
 }
 
-func (op *Operator) FromSlice(s []NilInt) {
+func (op *Operator) FromSlice(s []nilInt) {
 	op.root = nil
 	if len(s) == 0 {
 		return
