@@ -1,4 +1,4 @@
-package treenode
+package nilint
 
 type NilInt struct {
 	isNil bool

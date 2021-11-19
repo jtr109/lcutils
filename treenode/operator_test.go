@@ -3,11 +3,15 @@ package treenode
 import (
 	"testing"
 
+	"github.com/jtr109/lcutils/nilint"
 	"github.com/stretchr/testify/assert"
 )
 
+var newInt = nilint.NewInt
+var newNil = nilint.NewNil
+
 func TestFromSlice(t *testing.T) {
-	slice := []NilInt{NewInt(3), NewInt(9), NewInt(20), NewNil(), NewNil(), NewInt(15), NewInt(7)}
+	slice := []nilInt{newInt(3), newInt(9), newInt(20), newNil(), newNil(), newInt(15), newInt(7)}
 	op := NewOperator()
 	op.FromSlice(slice)
 	assert.Equal(t, 3, op.Root().Val)
@@ -24,14 +28,14 @@ func TestFromSlice(t *testing.T) {
 }
 
 func TestFromEmptySlice(t *testing.T) {
-	slice := []NilInt{}
+	slice := []nilInt{}
 	op := NewOperator()
 	op.FromSlice(slice)
 	assert.Nil(t, op.Root())
 }
 
 func TestFromPartialSlice(t *testing.T) {
-	slice := []NilInt{NewInt(1), NewInt(2)}
+	slice := []nilInt{newInt(1), newInt(2)}
 	op := NewOperator()
 	op.FromSlice(slice)
 	assert.Equal(t, 1, op.Root().Val)
@@ -49,15 +53,15 @@ func TestFromOnlyLeftSlice(t *testing.T) {
 	//   4
 	//  /
 	// 5
-	slice := []NilInt{
-		NewInt(1),
-		NewInt(2),
-		NewNil(),
-		NewInt(3),
-		NewNil(),
-		NewInt(4),
-		NewNil(),
-		NewInt(5),
+	slice := []nilInt{
+		newInt(1),
+		newInt(2),
+		newNil(),
+		newInt(3),
+		newNil(),
+		newInt(4),
+		newNil(),
+		newInt(5),
 	}
 	op := NewOperator()
 	op.FromSlice(slice)
