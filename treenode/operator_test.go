@@ -80,3 +80,42 @@ func TestFromOnlyLeftSlice(t *testing.T) {
 func TestNilToSlice(t *testing.T) {
 	assert.Equal(t, []nilInt{}, NewOperator().ToSlice())
 }
+
+func TestToSlice(t *testing.T) {
+	//         3
+	//       /   \
+	//      /     \
+	//     9       20
+	//    /  \     / \
+	//   /    \   /   \
+	// null  null 15   7
+	slice := []nilInt{newInt(3), newInt(9), newInt(20), newNil(), newNil(), newInt(15), newInt(7)}
+	op := NewOperator()
+	op.FromSlice(slice)
+	assert.Equal(t, slice, op.ToSlice())
+}
+
+func TestOnlyLeftToSlice(t *testing.T) {
+	//         1
+	//        /
+	//       2
+	//      /
+	//     3
+	//    /
+	//   4
+	//  /
+	// 5
+	slice := []nilInt{
+		newInt(1),
+		newInt(2),
+		newNil(),
+		newInt(3),
+		newNil(),
+		newInt(4),
+		newNil(),
+		newInt(5),
+	}
+	op := NewOperator()
+	op.FromSlice(slice)
+	assert.Equal(t, slice, op.ToSlice())
+}

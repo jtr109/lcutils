@@ -1,5 +1,7 @@
 package treenode
 
+import "github.com/jtr109/lcutils/nilint"
+
 type Operator struct {
 	root *TreeNode
 }
@@ -41,8 +43,40 @@ func (op *Operator) FromSlice(s []nilInt) {
 }
 
 func (op *Operator) ToSlice() (result []nilInt) {
-	if op.root == nil {
+	// maybe two possible mode
+	// 1. all nil in last level is tripped
+	// 2. all tail nils is tripped
+	// more examples are required for a decision
+	// we choose the second option for now
+	if op.Root() == nil {
 		return []nilInt{}
+	}
+	nextLevel := []*TreeNode{op.Root()}
+	for len(nextLevel) != 0 {
+		current := nextLevel
+		nextLevel = []*TreeNode{}
+		// // stop convertion if all nodes in current level is nil
+		// allNil := true
+		// for _, node := range current {
+		// 	if node != nil {
+		// 		allNil = false
+		// 		break
+		// 	}
+		// }
+		// if allNil {
+		// 	break
+		// }
+		for _, node := range current {
+			if node == nil {
+				result = append(result, nilint.NewNil())
+				continue
+			}
+			result = append(result, nilint.NewInt(node.Val))
+			nextLevel = append(nextLevel, node.Left, node.Right)
+		}
+	}
+	for len(result) > 0 && result[len(result)-1] == nilint.NewNil() {
+		result = result[:len(result)-1]
 	}
 	return
 }
