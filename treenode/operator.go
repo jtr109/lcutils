@@ -39,3 +39,10 @@ func (op *Operator) FromSlice(s []nilInt) {
 		nodeQueue = nodeQueue[1:] // left pop
 	}
 }
+
+func (op *Operator) ToSlice() (result []nilInt) {
+	if op.root == nil {
+		return []nilInt{}
+	}
+	return
+}

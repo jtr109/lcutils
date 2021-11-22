@@ -76,3 +76,7 @@ func TestFromOnlyLeftSlice(t *testing.T) {
 	assert.Nil(t, op.Root().Left.Left.Left.Left.Left)
 	assert.Nil(t, op.Root().Left.Left.Left.Left.Right)
 }
+
+func TestNilToSlice(t *testing.T) {
+	assert.Equal(t, []nilInt{}, NewOperator().ToSlice())
+}
