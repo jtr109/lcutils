@@ -10,6 +10,10 @@ func NewOperator() *Operator {
 	return &Operator{}
 }
 
+func (op *Operator) SetRoot(root *TreeNode) {
+	op.root = root
+}
+
 func (op *Operator) Root() *TreeNode {
 	return op.root
 }
