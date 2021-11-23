@@ -15,7 +15,13 @@ func NewOperator() *Operator {
 }
 
 func NewOperatorFromSlice(s []int) *Operator {
+	// TODO: remove this function
 	op := NewOperator()
+	op.virtualHead.Next = ConvertArrayToListNode(s)
+	return op
+}
+
+func (op *Operator) FromSlice(s []int) *Operator {
 	op.virtualHead.Next = ConvertArrayToListNode(s)
 	return op
 }
