@@ -15,7 +15,20 @@ func NewOperator() *Operator {
 }
 
 func (op *Operator) FromSlice(s []int) *Operator {
-	op.virtualHead.Next = ConvertArrayToListNode(s)
+	if len(s) == 0 {
+		return nil
+	}
+	head := &ListNode{
+		Val: s[0],
+	}
+	current := head
+	for i := 1; i < len(s); i++ {
+		current.Next = &ListNode{
+			Val: s[i],
+		}
+		current = current.Next
+	}
+	op.virtualHead.Next = head
 	return op
 }
 
@@ -24,8 +37,13 @@ func (op *Operator) ToSlice() ([]int, error) {
 	if op.cycleFlagNode() != nil {
 		return nil, fmt.Errorf("failed because the node list has a cycle")
 	}
-	// TODO: move convertion function here
-	return ConvertListNodeToArray(op.Head()), nil
+	current := op.Head()
+	result := []int{}
+	for current != nil {
+		result = append(result, current.Val)
+		current = current.Next
+	}
+	return result, nil
 }
 
 func (op *Operator) Head() *ListNode {
