@@ -26,7 +26,7 @@ func TestOperatorCycleBegin(t *testing.T) {
 	//       ^        /
 	//        \      /
 	//         '----'
-	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	op := NewOperator().FromSlice([]int{3, 2, 0, -4})
 	node1, err := op.Get(1)
 	assert.Nil(t, err)
 	node3, err := op.Get(3)
@@ -106,7 +106,7 @@ func TestOperatorInsert(t *testing.T) {
 	//       \          ^
 	//        \        /
 	//         '-> 1 -'
-	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	op := NewOperator().FromSlice([]int{3, 2, 0, -4})
 	node1, _ := op.Get(1)
 	node2, _ := op.Get(2)
 	node4 := NewListNode(1)
@@ -120,7 +120,7 @@ func TestOperatorInsertAtHead(t *testing.T) {
 	//       ^
 	//      /
 	// 1 --'
-	op := NewOperatorFromSlice([]int{3, 2})
+	op := NewOperator().FromSlice([]int{3, 2})
 	node0, _ := op.Get(0)
 	node2 := NewListNode(1)
 	op.Insert(0, node2)
@@ -132,7 +132,7 @@ func TestOperatorInsertAtTail(t *testing.T) {
 	// 3 --> 2
 	//        \
 	//         '--> 1
-	op := NewOperatorFromSlice([]int{3, 2})
+	op := NewOperator().FromSlice([]int{3, 2})
 	node1, _ := op.Get(1)
 	node2 := NewListNode(1)
 	op.Insert(2, node2)
@@ -142,7 +142,7 @@ func TestOperatorInsertAtTail(t *testing.T) {
 
 func TestOperatorInsertWithInvalidIndex(t *testing.T) {
 	node2 := NewListNode(1)
-	op := NewOperatorFromSlice([]int{3, 2})
+	op := NewOperator().FromSlice([]int{3, 2})
 	for i := -1; i > -3; i-- {
 		err := op.Insert(i, node2)
 		assert.Errorf(t, err, fmt.Sprintf("invalid index %d (index must be non-negative", i))
@@ -159,7 +159,7 @@ func TestOperatorDelete(t *testing.T) {
 	//          \                        ^
 	//           \                      /
 	//            '--------------------'
-	op := NewOperatorFromSlice([]int{3, 2, 0, -4})
+	op := NewOperator().FromSlice([]int{3, 2, 0, -4})
 	node1, _ := op.Get(1)
 	node2, _ := op.Get(2)
 	node3, _ := op.Get(3)
@@ -212,7 +212,7 @@ func TestOperatorDeleteWithInvalidIndex(t *testing.T) {
 
 func TestOperatorToSlice(t *testing.T) {
 	s := []int{3, 2, 0, -4}
-	op := NewOperatorFromSlice(s)
+	op := NewOperator().FromSlice(s)
 	newS, err := op.ToSlice()
 	assert.Nil(t, err)
 	assert.Equal(t, s, newS)
@@ -224,7 +224,7 @@ func TestOperatorToSliceWithCycle(t *testing.T) {
 	//        \      /
 	//         '----'
 	s := []int{3, 2, 0, -4}
-	op := NewOperatorFromSlice(s)
+	op := NewOperator().FromSlice(s)
 	node1, _ := op.Get(1)
 	node3, _ := op.Get(3)
 	node3.Next = node1
