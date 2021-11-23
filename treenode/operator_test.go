@@ -12,8 +12,7 @@ var newNil = nilint.NewNil
 
 func TestFromSlice(t *testing.T) {
 	slice := []nilInt{newInt(3), newInt(9), newInt(20), newNil(), newNil(), newInt(15), newInt(7)}
-	op := NewOperator()
-	op.FromSlice(slice)
+	op := NewOperator().FromSlice(slice)
 	assert.Equal(t, 3, op.Root().Val)
 	assert.Equal(t, 9, op.Root().Left.Val)
 	assert.Nil(t, op.Root().Left.Left)
@@ -28,16 +27,13 @@ func TestFromSlice(t *testing.T) {
 }
 
 func TestFromEmptySlice(t *testing.T) {
-	slice := []nilInt{}
-	op := NewOperator()
-	op.FromSlice(slice)
+	op := NewOperator().FromSlice([]nilInt{})
 	assert.Nil(t, op.Root())
 }
 
 func TestFromPartialSlice(t *testing.T) {
 	slice := []nilInt{newInt(1), newInt(2)}
-	op := NewOperator()
-	op.FromSlice(slice)
+	op := NewOperator().FromSlice(slice)
 	assert.Equal(t, 1, op.Root().Val)
 	assert.Equal(t, 2, op.Root().Left.Val)
 	assert.Nil(t, op.Root().Right)
@@ -63,8 +59,7 @@ func TestFromOnlyLeftSlice(t *testing.T) {
 		newNil(),
 		newInt(5),
 	}
-	op := NewOperator()
-	op.FromSlice(slice)
+	op := NewOperator().FromSlice(slice)
 	assert.Equal(t, 1, op.Root().Val)
 	assert.Equal(t, 2, op.Root().Left.Val)
 	assert.Nil(t, op.Root().Right)
@@ -90,9 +85,7 @@ func TestToSlice(t *testing.T) {
 	//   /    \   /   \
 	// null  null 15   7
 	slice := []nilInt{newInt(3), newInt(9), newInt(20), newNil(), newNil(), newInt(15), newInt(7)}
-	op := NewOperator()
-	op.FromSlice(slice)
-	assert.Equal(t, slice, op.ToSlice())
+	assert.Equal(t, slice, NewOperator().FromSlice(slice).ToSlice())
 }
 
 func TestOnlyLeftToSlice(t *testing.T) {
@@ -115,7 +108,5 @@ func TestOnlyLeftToSlice(t *testing.T) {
 		newNil(),
 		newInt(5),
 	}
-	op := NewOperator()
-	op.FromSlice(slice)
-	assert.Equal(t, slice, op.ToSlice())
+	assert.Equal(t, slice, NewOperator().FromSlice(slice).ToSlice())
 }

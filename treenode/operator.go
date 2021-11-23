@@ -10,18 +10,19 @@ func NewOperator() *Operator {
 	return &Operator{}
 }
 
-func (op *Operator) SetRoot(root *TreeNode) {
+func (op *Operator) SetRoot(root *TreeNode) *Operator {
 	op.root = root
+	return op
 }
 
 func (op *Operator) Root() *TreeNode {
 	return op.root
 }
 
-func (op *Operator) FromSlice(s []nilInt) {
+func (op *Operator) FromSlice(s []nilInt) *Operator {
 	op.root = nil
 	if len(s) == 0 {
-		return
+		return op
 	}
 	op.root = NewTreeNode(&s[0])
 	nodeQueue := []*TreeNode{op.root}
@@ -44,6 +45,7 @@ func (op *Operator) FromSlice(s []nilInt) {
 		current.Right = rightChild
 		nodeQueue = nodeQueue[1:] // left pop
 	}
+	return op
 }
 
 func (op *Operator) ToSlice() (result []nilInt) {
