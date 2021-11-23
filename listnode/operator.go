@@ -16,7 +16,7 @@ func NewOperator() *Operator {
 
 func (op *Operator) FromSlice(s []int) *Operator {
 	if len(s) == 0 {
-		return nil
+		return op.SetHead(nil)
 	}
 	head := &ListNode{
 		Val: s[0],
@@ -48,6 +48,11 @@ func (op *Operator) ToSlice() ([]int, error) {
 
 func (op *Operator) Head() *ListNode {
 	return op.virtualHead.Next
+}
+
+func (op *Operator) SetHead(head *ListNode) *Operator {
+	op.virtualHead.Next = head
+	return op
 }
 
 func (op *Operator) CycleBegin() *ListNode {
