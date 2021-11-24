@@ -1,46 +1,42 @@
-// ## Example
+// Helper utils for the type TreeNode in LeetCode.
 //
-// ## Create TreeNode from Slice
+// Convert From Slice
 //
-// For example, a `root` is provided as a abstract slice which contains level scan result of a binary tree, refers to the problem [Maximum Depth of Binary Tree - LeetCode](https://leetcode.com/problems/maximum-depth-of-binary-tree/).
+// For example, a root is provided as a abstract slice which contains level scan result of a binary tree, refers to the problem [Maximum Depth of Binary Tree - LeetCode](https://leetcode.com/problems/maximum-depth-of-binary-tree/).
 //
-// We can follow the code below to create a `TreeNode` of `root`:
+// We can follow the code below to create a TreeNode of root:
 //
-// ```go
-// root := treenode.NewOperator().FromSlice([]nilint.NilInt{
-//      nilint.NewInt(3),
-//      nilint.NewInt(9),
-//      nilint.NewInt(20),
-//      nilint.NewNil(),
-//      nilint.NewNil(),
-//      nilint.NewInt(15),
-//      nilint.NewInt(7),
-//  }).Root()
-// ```
+//     root := treenode.NewOperator().FromSlice([]nilint.NilInt{
+//         nilint.NewInt(3),
+//         nilint.NewInt(9),
+//         nilint.NewInt(20),
+//         nilint.NewNil(),
+//         nilint.NewNil(),
+//         nilint.NewInt(15),
+//         nilint.NewInt(7),
+//     }).Root()
 //
 // Explanation:
 //
-// We cannot use `[]int` as the type of the slice `root` because it contains `null`. We define a type `nilint.NilInt` to represent it, and now we can define the slice as type `[]nilint.NilInt`. We provide function `NewInt` and `NewNil` to create integer and null value.
+// We cannot use []int as the type of the slice root because it contains null. We define a type nilint.NilInt to represent it, and now we can define the slice as type []nilint.NilInt. We provide function NewInt and NewNil to create integer and null value.
 //
-// The function `treenode.NewOperator` returns an instance of type `treenode.Operator` with a lot of features. But in our case, we only need to get the root `TreeNode` we need from the method `Root`.
+// The function treenode.NewOperator returns an instance of type treenode.Operator with a lot of features. But in our case, we only need to get the root TreeNode we need from the method Root.
 //
 // Compare Two TreeNode
 //
-// Assume we want to check if two TreeNode is same, we can wrap them by `treenode.Operator` and compare the two operators.
+// Assume we want to check if two TreeNode is same, we can wrap them by treenode.Operator and compare the two operators.
 //
-// ```go
-// func TestEqual(t *testing.T) {
-//     p := NewOperator().FromSlice([]nilint.NilInt{
-//         nilint.NewInt(1),
-//         nilint.NewInt(2),
-//         nilint.NewInt(3),
-//     })
-//     q := NewOperator().FromSlice([]nilint.NilInt{
-//         nilint.NewInt(1),
-//         nilint.NewInt(2),
-//         nilint.NewInt(3),
-//     })
-//     assert.True(t, p.Equal(q))
-// }
-// ```
+//     func TestEqual(t *testing.T) {
+//         p := NewOperator().FromSlice([]nilint.NilInt{
+//             nilint.NewInt(1),
+//             nilint.NewInt(2),
+//             nilint.NewInt(3),
+//         })
+//         q := NewOperator().FromSlice([]nilint.NilInt{
+//             nilint.NewInt(1),
+//             nilint.NewInt(2),
+//             nilint.NewInt(3),
+//         })
+//         assert.True(t, p.Equal(q))
+//     }
 package treenode
