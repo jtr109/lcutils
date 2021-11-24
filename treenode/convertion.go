@@ -2,7 +2,7 @@ package treenode
 
 import "github.com/jtr109/lcutils/nilint"
 
-func fromNilInt(val *nilInt) *TreeNode {
+func fromNilInt(val *nilint.NilInt) *TreeNode {
 	if val.IsNil() {
 		return nil
 	}

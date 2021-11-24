@@ -10,7 +10,7 @@ func Equal(node1, node2 *TreeNode) bool {
 	if node1.Val != node2.Val {
 		return false
 	}
-	if !treeNodeEqual(node1.Left, node2.Left) || !treeNodeEqual(node1.Right, node2.Right) {
+	if !Equal(node1.Left, node2.Left) || !Equal(node1.Right, node2.Right) {
 		return false
 	}
 	return true
