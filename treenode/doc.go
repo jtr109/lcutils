@@ -23,4 +23,24 @@
 // We cannot use `[]int` as the type of the slice `root` because it contains `null`. We define a type `nilint.NilInt` to represent it, and now we can define the slice as type `[]nilint.NilInt`. We provide function `NewInt` and `NewNil` to create integer and null value.
 //
 // The function `treenode.NewOperator` returns an instance of type `treenode.Operator` with a lot of features. But in our case, we only need to get the root `TreeNode` we need from the method `Root`.
+//
+// Compare Two TreeNode
+//
+// Assume we want to check if two TreeNode is same, we can wrap them by `treenode.Operator` and compare the two operators.
+//
+// ```go
+// func TestEqual(t *testing.T) {
+// 	p := NewOperator().FromSlice([]nilint.NilInt{
+// 		nilint.NewInt(1),
+// 		nilint.NewInt(2),
+// 		nilint.NewInt(3),
+// 	})
+// 	q := NewOperator().FromSlice([]nilint.NilInt{
+// 		nilint.NewInt(1),
+// 		nilint.NewInt(2),
+// 		nilint.NewInt(3),
+// 	})
+// 	assert.True(t, p.Equal(q))
+// }
+// ```
 package treenode
