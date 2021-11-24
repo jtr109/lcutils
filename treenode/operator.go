@@ -86,3 +86,7 @@ func (op *Operator) ToSlice() (result []nilInt) {
 	}
 	return
 }
+
+func (op *Operator) Equal(target *Operator) bool {
+	return treeNodeEqual(op.Root(), target.Root())
+}

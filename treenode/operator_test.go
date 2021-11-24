@@ -110,3 +110,44 @@ func TestOnlyLeftToSlice(t *testing.T) {
 	}
 	assert.Equal(t, slice, NewOperator().FromSlice(slice).ToSlice())
 }
+
+func TestEqual(t *testing.T) {
+	p := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewInt(2),
+		nilint.NewInt(3),
+	})
+	q := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewInt(2),
+		nilint.NewInt(3),
+	})
+	assert.True(t, p.Equal(q))
+}
+
+func TestNotEqual(t *testing.T) {
+	p := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewInt(2),
+	})
+	q := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewNil(),
+		nilint.NewInt(2),
+	})
+	assert.False(t, p.Equal(q))
+}
+
+func TestNotEqual2(t *testing.T) {
+	p := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewInt(2),
+		nilint.NewInt(1),
+	})
+	q := NewOperator().FromSlice([]nilint.NilInt{
+		nilint.NewInt(1),
+		nilint.NewInt(1),
+		nilint.NewInt(2),
+	})
+	assert.False(t, p.Equal(q))
+}
