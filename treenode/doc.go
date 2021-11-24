@@ -8,14 +8,14 @@
 //
 // ```go
 // root := treenode.NewOperator().FromSlice([]nilint.NilInt{
-// 		nilint.NewInt(3),
-// 		nilint.NewInt(9),
-// 		nilint.NewInt(20),
-// 		nilint.NewNil(),
-// 		nilint.NewNil(),
-// 		nilint.NewInt(15),
-// 		nilint.NewInt(7),
-// 	}).Root()
+//      nilint.NewInt(3),
+//      nilint.NewInt(9),
+//      nilint.NewInt(20),
+//      nilint.NewNil(),
+//      nilint.NewNil(),
+//      nilint.NewInt(15),
+//      nilint.NewInt(7),
+//  }).Root()
 // ```
 //
 // Explanation:
@@ -30,17 +30,17 @@
 //
 // ```go
 // func TestEqual(t *testing.T) {
-// 	p := NewOperator().FromSlice([]nilint.NilInt{
-// 		nilint.NewInt(1),
-// 		nilint.NewInt(2),
-// 		nilint.NewInt(3),
-// 	})
-// 	q := NewOperator().FromSlice([]nilint.NilInt{
-// 		nilint.NewInt(1),
-// 		nilint.NewInt(2),
-// 		nilint.NewInt(3),
-// 	})
-// 	assert.True(t, p.Equal(q))
+//     p := NewOperator().FromSlice([]nilint.NilInt{
+//         nilint.NewInt(1),
+//         nilint.NewInt(2),
+//         nilint.NewInt(3),
+//     })
+//     q := NewOperator().FromSlice([]nilint.NilInt{
+//         nilint.NewInt(1),
+//         nilint.NewInt(2),
+//         nilint.NewInt(3),
+//     })
+//     assert.True(t, p.Equal(q))
 // }
 // ```
 package treenode
