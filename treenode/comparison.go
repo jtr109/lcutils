@@ -1,16 +1,6 @@
 package treenode
 
-import "github.com/jtr109/lcutils/nilint"
-
-type nilInt = nilint.NilInt
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
-func treeNodeEqual(node1, node2 *TreeNode) bool {
+func Equal(node1, node2 *TreeNode) bool {
 	if node1 == nil && node2 == nil {
 		return true
 	}

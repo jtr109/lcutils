@@ -24,7 +24,7 @@ func (op *Operator) FromSlice(s []nilInt) *Operator {
 	if len(s) == 0 {
 		return op
 	}
-	op.root = NewTreeNode(&s[0])
+	op.root = fromNilInt(&s[0])
 	nodeQueue := []*TreeNode{op.root}
 	i := 0
 	for len(nodeQueue) > 0 && i < len(s) {
@@ -33,12 +33,12 @@ func (op *Operator) FromSlice(s []nilInt) *Operator {
 		var rightChild *TreeNode
 		i++
 		if i < len(s) && !s[i].IsNil() {
-			leftChild = NewTreeNode(&s[i])
+			leftChild = fromNilInt(&s[i])
 			nodeQueue = append(nodeQueue, leftChild)
 		}
 		i++
 		if i < len(s) && !s[i].IsNil() {
-			rightChild = NewTreeNode(&s[i])
+			rightChild = fromNilInt(&s[i])
 			nodeQueue = append(nodeQueue, rightChild)
 		}
 		current.Left = leftChild
