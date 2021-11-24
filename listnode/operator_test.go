@@ -101,10 +101,6 @@ func TestOperatorGetPrevious(t *testing.T) {
 	}
 }
 
-func TestFromEmptySlice(t *testing.T) {
-	assert.Nil(t, NewOperator().FromSlice([]int{}).Head())
-}
-
 func TestOperatorInsert(t *testing.T) {
 	// 3 -> 2 - - x - -> 0 --> -4
 	//       \          ^
