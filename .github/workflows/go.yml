@@ -21,5 +21,8 @@ jobs:
     - name: Build
       run: go build -v ./...
 
+    - name: Create Test Output Directory
+      run: mkdir -p ./output/test
+
     - name: Test
-      run: go test -v ./...
+      run: go test -v ./... -coverprofile=./output/test/coverage.out
