@@ -59,3 +59,35 @@ func FromSlice(s []nilint.NilInt) *TreeNode {
 	}
 	return root
 }
+
+// Convert the TreeNode into a slice.
+//
+// For example, we have the root of a tree with type TreeNode, we can make a convertion like below:
+//
+//    root.ToSlice()
+//
+// The output will be a slice. As is shown in all LeetCode problems, such as https://leetcode.com/problems/maximum-depth-of-binary-tree/.
+func (root *TreeNode) ToSlice() []nilint.NilInt {
+	slice := []nilint.NilInt{}
+	nextLevel := []*TreeNode{root}
+	for len(nextLevel) > 0 {
+		currentLevel := nextLevel
+		nextLevel = []*TreeNode{}
+		for _, node := range currentLevel {
+			if node == nil {
+				slice = append(slice, nilint.NewNil())
+				continue
+			}
+			slice = append(slice, nilint.NewInt(node.Val))
+			nextLevel = append(nextLevel, node.Left, node.Right)
+		}
+	}
+	// strip tail nils
+	length := 0
+	for i, n := range slice {
+		if !n.IsNil() {
+			length = i + 1
+		}
+	}
+	return slice[:length]
+}
