@@ -59,3 +59,28 @@ func FromSlice(s []nilint.NilInt) *TreeNode {
 	}
 	return root
 }
+
+func (root *TreeNode) ToSlice() []nilint.NilInt {
+	slice := []nilint.NilInt{}
+	nextLevel := []*TreeNode{root}
+	for len(nextLevel) > 0 {
+		currentLevel := nextLevel
+		nextLevel = []*TreeNode{}
+		for _, node := range currentLevel {
+			if node == nil {
+				slice = append(slice, nilint.NewNil())
+				continue
+			}
+			slice = append(slice, nilint.NewInt(node.Val))
+			nextLevel = append(nextLevel, node.Left, node.Right)
+		}
+	}
+	// strip tail nils
+	length := 0
+	for i, n := range slice {
+		if !n.IsNil() {
+			length = i + 1
+		}
+	}
+	return slice[:length]
+}
