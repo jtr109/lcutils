@@ -84,7 +84,7 @@ func TestToSlice(t *testing.T) {
 		nilint.NewInt(15),
 		nilint.NewInt(7),
 	}
-	actual := FromSlice(s).ToSlice()
+	actual := ToSlice(FromSlice(s))
 	assert.Equal(t, s, actual)
 }
 
@@ -99,6 +99,6 @@ func TestToOnlyLeftSlice(t *testing.T) {
 		nilint.NewNil(),
 		nilint.NewInt(5),
 	}
-	actual := FromSlice(s).ToSlice()
+	actual := ToSlice(FromSlice(s))
 	assert.Equal(t, s, actual)
 }
